@@ -135,9 +135,9 @@ GameObject:
   - component: {fileID: 30877961}
   - component: {fileID: 30877960}
   - component: {fileID: 30877959}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Triangle
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,8 +150,8 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30877958}
-  m_BodyType: 0
-  m_Simulated: 1
+  m_BodyType: 1
+  m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 1037509287}
   - component: {fileID: 1037509286}
   - component: {fileID: 1037509285}
+  - component: {fileID: 1037509290}
   - component: {fileID: 1037509289}
   - component: {fileID: 1037509288}
   m_Layer: 0
@@ -459,6 +460,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &1037509290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037509284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2db5fd1ec290a49899314dcfa2670a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1388250475
 GameObject:
   m_ObjectHideFlags: 0
