@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public string horizontalInputAxis = "Horizontal";
     public string verticalInputAxis = "Vertical";
@@ -28,9 +28,13 @@ public class CharacterController : MonoBehaviour
         // Flip the character based on the input direction
         FlipCharacter(horizontalInput);
 
-        // Check for jump input
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        // Debug logs for jump input and grounded state
+        Debug.Log("Grounded: " + isGrounded);
+
+        // Check for jump input (spacebar or W key) and grounded state
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
         {
+            Debug.Log("Jumping...");
             // Ensure the velocity is zero before applying the impulse
             rb.velocity = Vector2.zero;
 
@@ -41,10 +45,11 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the player is grounded
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
             isGrounded = true; // Set grounded state to true when colliding with ground
         }
@@ -55,13 +60,13 @@ public class CharacterController : MonoBehaviour
         // Flip the character sprite based on the input direction
         if (horizontalInput < 0)
         {
-            // If moving left, flip the character to face left
-            transform.localScale = new Vector3(-1, 1, 1);
+            // If moving left, keep the character facing right
+            transform.localScale = new Vector3(1, 1, 1);
         }
         else if (horizontalInput > 0)
         {
-            // If moving right, keep the character facing right
-            transform.localScale = new Vector3(1, 1, 1);
+            // If moving right, flip the character to face left
+            transform.localScale = new Vector3(-1, 1, 1);
         }
         // If horizontalInput is 0, maintain the current facing direction
     }

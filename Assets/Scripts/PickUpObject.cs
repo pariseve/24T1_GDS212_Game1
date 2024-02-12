@@ -4,42 +4,47 @@ using UnityEngine;
 
 public class PickUpObject : MonoBehaviour
 {
+    public Transform pickupPosition; // Reference to the empty GameObject for picking up objects
     private GameObject carriedObject;
+    private bool isCarryingObject = false;
 
     void Update()
     {
-        // Check if the numpad 0 key is held down
+        // Check if the E key is held down
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // If not already carrying an object, try to pick one up
-            if (carriedObject == null)
+            if (isCarryingObject)
             {
+                // If already carrying an object, drop it
+                DropObject();
+            }
+            else
+            {
+                // If not already carrying an object, try to pick one up
                 TryPickUpObject();
             }
         }
-        else if (Input.GetKeyUp(KeyCode.E))
+
+        // If carrying an object, update its position to follow the pickup position
+        if (isCarryingObject)
         {
-            // If the key is released, drop the carried object if any
-            if (carriedObject != null)
-            {
-                DropObject();
-            }
+            carriedObject.transform.position = pickupPosition.position;
         }
     }
 
     void TryPickUpObject()
     {
-        Vector2 raycastOrigin = transform.position;
+        Vector2 raycastOrigin = pickupPosition.position;
         Vector2 raycastDirection = Vector2.down;
 
         // Define the layer mask for the "Interactable" layer
         LayerMask layerMask = LayerMask.GetMask("Interactable");
 
-        // Use a raycast to check if there is an object with the "Interactable" tag in front of the bird
+        // Use a raycast to check if there is an object with the "Interactable" tag in front of the pickup position
         RaycastHit2D hit = Physics2D.Raycast(raycastOrigin, raycastDirection, 10f, layerMask);
 
         // Log raycast information
-        Debug.DrawRay(raycastOrigin, raycastDirection * 10f, Color.red);
+        Debug.DrawRay(raycastOrigin, raycastDirection * 5f, Color.red);
         Debug.Log($"Raycast origin: {raycastOrigin}, Raycast direction: {raycastDirection}");
 
         if (hit.collider != null)
@@ -64,36 +69,35 @@ public class PickUpObject : MonoBehaviour
         }
     }
 
-
     void PickUp(GameObject objToPickUp)
     {
         // Set the carried object
         carriedObject = objToPickUp;
+        isCarryingObject = true;
 
-        // Check if the object has a Collider component
-        Collider2D objectCollider = carriedObject.GetComponent<Collider2D>();
-        if (objectCollider != null)
+        // Disable the object's Rigidbody component
+        Rigidbody2D rb = carriedObject.GetComponent<Rigidbody2D>();
+        if (rb != null)
         {
-            // Disable the object's collider and set it as a child of the bird for carrying
-            objectCollider.enabled = false;
-            carriedObject.transform.SetParent(transform);
+            rb.simulated = false;
+        }
 
-            Debug.Log($"Picked up {carriedObject.name}.");
-        }
-        else
-        {
-            Debug.LogWarning($"Cannot pick up {carriedObject.name} because it doesn't have a Collider component.");
-            // Optionally handle the case where the object doesn't have a Collider
-            carriedObject = null; // Reset the carriedObject variable
-        }
+        // Set the object's position to the pickup position
+        carriedObject.transform.position = pickupPosition.position;
+
+        Debug.Log($"Picked up {carriedObject.name}.");
     }
-
 
     void DropObject()
     {
-        // Enable the object's collider and remove it from being a child of the bird
-        carriedObject.GetComponent<Collider2D>().enabled = true;
-        carriedObject.transform.SetParent(null);
+        // Enable the object's Rigidbody component
+        Rigidbody2D rb = carriedObject.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.simulated = true;
+        }
+
+        isCarryingObject = false;
 
         Debug.Log($"Dropped {carriedObject.name}.");
 
@@ -101,4 +105,3 @@ public class PickUpObject : MonoBehaviour
         carriedObject = null;
     }
 }
-

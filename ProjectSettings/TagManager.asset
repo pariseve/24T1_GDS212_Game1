@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Interactable
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Interactable
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
@@ -42,4 +43,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Midground
+    uniqueID: 2502157107
+    locked: 0
+  - name: Ground
+    uniqueID: 2266362993
+    locked: 0
+  - name: Foreground
+    uniqueID: 2554792881
+    locked: 0
+  - name: Pickup
+    uniqueID: 3685620771
+    locked: 0
+  - name: Raymond
+    uniqueID: 2001497209
+    locked: 0
+  - name: Extras
+    uniqueID: 4139666015
     locked: 0
